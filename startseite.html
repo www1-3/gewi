@@ -1,17 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Startseite grichenland</title>
-</head>
-<script>
-    
-</script>
-<style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Griechenland Präsentation</title> 
 
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #e8f0ff;
+        color: #002b5c;
+        font-size: 20px;
+    }
+
+    header {
+        background: #0d47a1;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        font-size: 2.6em;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }
+
+    .slide {
+        display: none;
+        padding: 50px;
+        min-height: 65vh;
+        text-align: center;
+        animation: fade 0.5s ease-in-out;
+    }
+
+    @keyframes fade {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    h2 {
+        font-size: 2.3em;
+        margin-bottom: 20px;
+        color: #0d47a1;
+    }
+
+    p {
+        font-size: 1.4em;
+        line-height: 1.5em;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    ul {
+        text-align: left;
+        display: inline-block;
+        font-size: 1.4em;
+        margin-top: 20px;
+    }
+
+    .controls {
+        text-align: center;
+        padding: 30px;
+    }
+
+    button {
+        padding: 15px 35px;
+        margin: 10px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        background: #0d47a1;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #1565c0;
+    }
 </style>
+</head>
 <body>
-    
+
+<header>🇬🇷 Griechenland Präsentation</header>
+
+<!-- SLIDES -->
+<div class="slide" style="display:block;">
+    <h2>Willkommen in Griechenland</h2>
+    <p>Griechenland ist ein Land mit reicher Geschichte, wunderschönen Inseln und einer einzigartigen Kultur. 
+       Es gilt als die Wiege der Demokratie, der Philosophie und der Olympischen Spiele.</p>
+</div>
+
+<div class="slide">
+    <h2>Geografie</h2>
+    <p>Griechenland liegt im Südosten Europas und besteht aus:</p>
+    <ul>
+        <li>über 6.000 Inseln (ca. 227 bewohnt)</li>
+        <li>drei Meeren: Ägäis, Ionisches Meer, Mittelmeer</li>
+        <li>Gebirgen (80% der Landesfläche)</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h2>Geschichte</h2>
+    <p>Die antiken Griechen hatten großen Einfluss auf die europäische Kultur. Wichtige Beiträge:</p>
+    <ul>
+        <li>Demokratie (Athen)</li>
+        <li>Philosophie (Sokrates, Platon, Aristoteles)</li>
+        <li>Mathematik & Wissenschaft</li>
+        <li>Olympische Spiele (776 v. Chr.)</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h2>Kultur</h2>
+    <p>Die griechische Kultur ist geprägt von Musik, Tanz und einer starken Verbindung zur Familie. 
+       Die Mythologie ist weltberühmt – mit Göttern wie Zeus, Athene, Poseidon und vielen Helden.</p>
+</div>
+
+<div class="slide">
+    <h2>Wichtige Sehenswürdigkeiten</h2>
+    <ul>
+        <li>🏛 Akropolis in Athen</li>
+        <li>🌋 Santorini – die berühmte weiße Insel</li>
+        <li>⛰ Meteora – Klöster auf Felsen</li>
+        <li>🔮 Delphi – das Orakel</li>
+        <li>🏟 Olympia – Geburtsort der Spiele</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h2>Griechisches Essen</h2>
+    <ul>
+        <li>🥙 Gyros</li>
+        <li>🍢 Souvlaki</li>
+        <li>🥘 Moussaka</li>
+        <li>🥗 Griechischer Salat</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h2>Wirtschaft & Tourismus</h2>
+    <p>Griechenland lebt stark vom Tourismus. Jährlich besuchen über 30 Millionen Menschen das Land.</p>
+</div>
+
+<div class="slide">
+    <h2>Danke fürs Anschauen!</h2>
+    <p>🇬🇷 Ελλάδα – Griechenland heißt euch willkommen!</p>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+    <button onclick="prevSlide()">⬅ Zurück</button>
+    <button onclick="nextSlide()">Weiter ➡</button>
+</div>
+
+<script>
+    let index = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function showSlide(i) {
+        slides.forEach(slide => slide.style.display = "none");
+        slides[i].style.display = "block";
+    }
+
+    function nextSlide() {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+
+    function prevSlide() {
+        index = (index - 1 + slides.length) % slides.length;
+        showSlide(index);
+    }
+</script>
+
 </body>
 </html>
