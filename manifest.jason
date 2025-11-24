@@ -1,0 +1,9 @@
+{
+  "name": "gewi",
+  "short_name": "gwei",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "display": "fullscreen",
+  "scope": "https://www1-3.github.io/gewi/startseite.html",
+  "start_url": "https://www1-3.github.io/gewi/startseite.html"
+}
