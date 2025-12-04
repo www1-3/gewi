@@ -14,7 +14,7 @@ body {
   font-size: 22px;
 }
 
-/* ----------- HEADER + SOUND BUTTON ----------- */
+/* ----------- HEADER + SOUND SWITCH ----------- */
 header {
   background: #0d47a1;
   color: white;
@@ -22,26 +22,45 @@ header {
   text-align: center;
   font-size: 3em;
   font-weight: bold;
-  position: relative;   /* wichtig für Button im Header */
+  position: relative;
 }
 
-/* Button im Header */
-#soundToggle {
+/* --- SOUND SWITCH BUTTON --- */
+.switch {
+  width: 70px;
+  height: 34px;
+  background: #1e3a8a;        /* blau */
+  border-radius: 34px;
   position: absolute;
   right: 25px;
-  top: 20px;
-  background: #ffeb3b;
-  padding: 10px 20px;
-  border-radius: 10px;
-  color: black;
-  font-size: 18px;
-  font-weight: bold;
+  top: 25px;
   cursor: pointer;
-  border: 3px solid black;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  box-sizing: border-box;
 }
-#soundToggle:hover {
-  background: #fff176;
+
+.switch .slider {
+  width: 28px;
+  height: 28px;
+  background: limegreen;      /* Sound AN */
+  border-radius: 50%;
+  transition: 0.25s;
 }
+
+/* Sound AUS */
+.switch.off .slider {
+  transform: translateX(0);
+  background: red;
+}
+
+/* Sound AN */
+.switch.on .slider {
+  transform: translateX(36px);
+  background: limegreen;
+}
+
 
 /* ----------- SLIDES ----------- */
 .slide {
@@ -148,7 +167,11 @@ button:hover {background:#1565c0;}
 
 <header>
   🇬🇷 Griechenland Präsentation
-  <button id="soundToggle">🔊 Sound AUS</button>
+
+  <!-- NEUER SOUND-SWITCH -->
+  <div id="soundToggle" class="switch on">
+      <div class="slider"></div>
+  </div>
 </header>
 
 <div id="flash"></div>
@@ -246,10 +269,17 @@ const soundToggle = document.getElementById("soundToggle");
 /* ------ SOUND TOGGLE ------ */
 soundToggle.onclick = () => {
     soundEnabled = !soundEnabled;
-    soundToggle.textContent = soundEnabled ? "🔊 Sound AUS" : "🔇 Sound AN";
+
+    if (soundEnabled) {
+        soundToggle.classList.remove("off");
+        soundToggle.classList.add("on");
+    } else {
+        soundToggle.classList.remove("on");
+        soundToggle.classList.add("off");
+    }
 };
 
-/* ------ GLASSPILTER ------ */
+/* ------ GLASSPLITTER ------ */
 function createGlassParticles(count = 45) {
     for (let i = 0; i < count; i++) {
         let piece = document.createElement("div");
