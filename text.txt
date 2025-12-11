@@ -1,0 +1,367 @@
+<html lang="de"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Griechenland Präsentation</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e8f0ff;
+  color: #002b5c;
+  overflow: hidden;
+  font-size: 22px;
+}
+
+/* ----------- HEADER + SOUND SWITCH ----------- */
+header {
+  background: #0d47a1;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  font-size: 3em;
+  font-weight: bold;
+  position: relative;
+}
+
+/* --- SOUND SWITCH BUTTON --- */
+.switch {
+  width: 70px;
+  height: 34px;
+  background: #1e3a8a;
+  border-radius: 34px;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.switch .slider {
+  width: 28px;
+  height: 28px;
+  background: limegreen;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+.switch.off .slider {
+  transform: translateX(0);
+  background: red;
+}
+
+.switch.on .slider {
+  transform: translateX(36px);
+  background: limegreen;
+}
+
+/* ----------- SLIDES ----------- */
+.slide {
+  display: none;
+  padding: 50px;
+  min-height: 65vh;
+  text-align: center;
+  position: relative;
+}
+
+.slide h2 { font-size: 2.6em; }
+.slide p, .slide li { font-size: 1.4em; }
+
+/* ----------- EXPLOSION EFFEKTE ----------- */
+
+#flash {
+  position: fixed; inset:0; background:white;
+  opacity:0; z-index:9000; pointer-events:none;
+}
+
+#smoke {
+  position: fixed; inset:0;
+  background: radial-gradient(circle, rgba(120,120,120,1), rgba(20,20,20,0.95));
+  opacity:0;
+  filter: blur(120px);
+  z-index:8800; pointer-events:none;
+}
+
+#shockwave {
+  position: fixed;
+  top:50%; left:50%;
+  width:50px; height:50px;
+  border-radius:50%;
+  transform: translate(-50%,-50%) scale(0);
+  opacity:0;
+  pointer-events:none;
+  background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%);
+  z-index:9100;
+  mix-blend-mode: screen;
+}
+
+@keyframes shockwaveAnim {
+  0%   {transform:translate(-50%,-50%) scale(0.2); opacity:1; filter:blur(2px);}
+  60%  {transform:translate(-50%,-50%) scale(12); opacity:0.8; filter:blur(10px);}
+  100% {transform:translate(-50%,-50%) scale(18); opacity:0; filter:blur(20px);}
+}
+
+#mushroom {
+  position: fixed; top:50%; left:50%;
+  width:400px; height:480px;
+  transform: translate(-50%,-50%) scale(0);
+  opacity:0; z-index:8900; pointer-events:none;
+}
+#mushroom .cap {
+  position: absolute; top:0; left:0; width:100%; height:220px;
+  background: radial-gradient(circle,#ffe066,#ff6a00,#7a0000);
+  border-radius:50%; filter:blur(10px);
+}
+#mushroom .stem {
+  position: absolute; bottom:0; left:50%; width:140px; height:260px;
+  background: radial-gradient(circle,#e8c291,#8b4513);
+  border-radius:50%; transform:translateX(-50%); filter:blur(4px);
+}
+
+/* Flash, Smoke, Mushroom Animationen */
+@keyframes flashAnim {0%{opacity:0}10%{opacity:1}30%{opacity:.6}60%{opacity:1}100%{opacity:0}}
+@keyframes smokeAnim {0%{opacity:0}30%{opacity:1}90%{opacity:1}100%{opacity:0}}
+@keyframes mushroomAnim {
+  0%{opacity:0; transform:translate(-50%,-50%) scale(0.1)}
+  35%{opacity:1; transform:translate(-50%,-50%) scale(1.5)}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(4)}
+}
+
+/* Glassplitter */
+.glass {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 3px;
+  backdrop-filter: blur(2px);
+  z-index:9600;
+  pointer-events:none;
+}
+
+@keyframes pieceAnim {
+  0%   {transform:translate(0,0) rotate(0deg); opacity:1;}
+  100% {transform:translate(var(--x), var(--y)) rotate(var(--r)); opacity:0;}
+}
+
+/* Buttons unten */
+.controls {text-align:center; padding:30px;}
+button {
+  padding:15px 35px; margin:10px; font-size:20px;
+  border:none; border-radius:8px;
+  background:#0d47a1; color:white; cursor:pointer;
+}
+button:hover {background:#1565c0;}
+</style>
+</head>
+<body>
+
+<header>
+  🇬🇷 Griechenland Präsentation
+
+  <div id="soundToggle" class="switch off">
+      <div class="slider"></div>
+  </div>
+</header>
+
+<div id="flash"></div>
+<div id="smoke"></div>
+<div id="shockwave"></div>
+
+<div id="mushroom">
+  <div class="cap"></div>
+  <div class="stem"></div>
+</div>
+
+<audio id="atomicSound">
+  <source src="explosion-sound-effect-425455.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ---------- NEUE START-SLIDE MIT KARTE ---------- -->
+
+<div class="slide" style="display:none;">
+  <h2>Wo liegt Griechenland?</h2>
+  <p>Hier siehst du eine einfache, unbeschriftete Karte von Griechenland.</p>
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Greece_blank_map.png"
+       alt="Griechenland Karte"
+       style="width:55%; border:3px solid #002b5c; border-radius:10px; margin-top:20px;">
+</div>
+
+<!-- ---------- WEITERE SLIDES ---------- -->
+
+<div class="slide" style="display: none;">
+  <h2>Präsentation über Griechenland</h2>
+  <p>Griechenland ist ein Land mit reicher Geschichte, wunderschönen Inseln und einer einzigartigen Kultur.</p>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Geografie</h2>
+  <ul>
+      <li>über 6.000 Inseln (ca. 227 bewohnt)</li>
+      <li>drei Meere: Ägäis, Ionisches Meer, Mittelmeer</li>
+      <li>Gebirge (80% der Landesfläche)</li>
+  </ul>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Geschichte</h2>
+  <ul>
+      <li>Demokratie (Athen)</li>
+      <li>Philosophie (Sokrates, Platon, Aristoteles)</li>
+      <li>Olympische Spiele (776 v. Chr.)</li>
+  </ul>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Kultur</h2>
+  <p>Die griechische Kultur ist geprägt von Musik, Tanz und Familie.</p>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Sehenswürdigkeiten</h2>
+  <ul>
+      <li>🏛 Akropolis</li>
+      <li>🌋 Santorini</li>
+      <li>⛰ Meteora</li>
+      <li>🔮 Delphi</li>
+      <li>🏟 Olympia</li>
+  </ul>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Essen</h2>
+  <ul>
+      <li>🥙 Gyros</li>
+      <li>🍢 Souvlaki</li>
+      <li>🥘 Moussaka</li>
+      <li>🥗 Griechischer Salat</li>
+  </ul>
+</div>
+
+<div class="slide" style="display: none;">
+  <h2>Tourismus</h2>
+  <p>Über 30 Millionen Besucher pro Jahr.</p>
+</div>
+
+<div class="slide" style="display: block;">
+  <h2>Danke!</h2>
+  <p>🇬🇷 Ελλάδα – Danke, dass ihr zugehört habt!</p>
+</div>
+
+<div class="controls">
+  <button onclick="prevSlide()">⬅ Zurück</button>
+  <button onclick="nextSlide()">Weiter ➡</button>
+</div>
+
+<script>
+let index = 0;
+let soundEnabled = true;
+
+const slides = document.querySelectorAll(".slide");
+const flash = document.getElementById("flash");
+const smoke = document.getElementById("smoke");
+const shockwave = document.getElementById("shockwave");
+const mushroom = document.getElementById("mushroom");
+const atomicSound = document.getElementById("atomicSound");
+const soundToggle = document.getElementById("soundToggle");
+
+soundToggle.onclick = () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.classList.toggle("off");
+    soundToggle.classList.toggle("on");
+};
+
+function createGlassParticles(count = 45) {
+    for (let i = 0; i < count; i++) {
+        let piece = document.createElement("div");
+        piece.className = "glass";
+
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+
+        piece.style.left = x + "px";
+        piece.style.top = y + "px";
+
+        piece.style.setProperty('--x', (Math.random() * 2400 - 1200) + 'px');
+        piece.style.setProperty('--y', (Math.random() * 1600 - 800) + 'px');
+        piece.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+
+        piece.style.animation = "pieceAnim 1.6s forwards";
+
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1800);
+    }
+}
+
+function explodeSlide(slide) {
+    const elements = [...slide.children];
+    elements.push(slide);
+
+    elements.forEach(el => {
+        const clone = el.cloneNode(true);
+        const rect = el.getBoundingClientRect();
+
+        clone.style.position = 'fixed';
+        clone.style.top = rect.top + 'px';
+        clone.style.left = rect.left + 'px';
+        clone.style.width = rect.width + 'px';
+        clone.style.height = rect.height + 'px';
+        clone.style.margin = 0;
+        clone.style.zIndex = 9500;
+
+        const cs = window.getComputedStyle(el);
+        clone.style.background = cs.backgroundColor;
+        clone.style.color = cs.color;
+        clone.style.fontSize = cs.fontSize;
+
+        document.body.appendChild(clone);
+
+        clone.style.setProperty('--x', (Math.random() * 2400 - 1200) + 'px');
+        clone.style.setProperty('--y', (Math.random() * 1600 - 800) + 'px');
+        clone.style.setProperty('--r', (Math.random() * 1440 - 720) + 'deg');
+
+        clone.style.animation = "pieceAnim 1.6s forwards";
+
+        setTimeout(() => clone.remove(), 1700);
+    });
+
+    createGlassParticles();
+}
+
+function playExplosion(slide) {
+    flash.style.animation = "flashAnim .7s forwards";
+    smoke.style.animation = "smokeAnim 2.3s forwards";
+    shockwave.style.animation = "shockwaveAnim 1s forwards";
+    mushroom.style.animation = "mushroomAnim 2s forwards";
+
+    if (soundEnabled) {
+        atomicSound.currentTime = 0;
+        atomicSound.play();
+    }
+
+    explodeSlide(slide);
+}
+
+function showSlide(i) {
+    slides.forEach(s => s.style.display = "none");
+    slides[i].style.display = "block";
+    setTimeout(() => playExplosion(slides[i]), 80);
+}
+
+function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+}
+
+function prevSlide() {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+}
+
+window.onload = () => showSlide(0);
+</script>
+
+</body></html>
